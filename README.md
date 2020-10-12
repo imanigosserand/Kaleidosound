@@ -14,8 +14,8 @@ A web application that allows users to queue music and see music visualizations.
 ### Features/Goals
 1. Various algorithms for audio-based visual effects.
 2. User Interface that allows for
-  - uploading of audio files/ URLs or synching with music platforms (Spotify/Apple Music/etc)
-  - the ability to change visual effects
-  - audio playback controls
-  - adding multiple users to a session
+- uploading of audio files/ URLs or synching with music platforms (Spotify/Apple Music/etc)
+- the ability to change visual effects
+- audio playback controls
+- adding multiple users to a session
  3. Creating a server that connects and synchronizes music/visuals for users in an app session.
