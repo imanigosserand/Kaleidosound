@@ -1,11 +1,11 @@
 # Kaleidosound
 An open source web music visualizer
 
-## badges 
+## badges
 ![GitHub](https://img.shields.io/github/license/imanigosserand/kaleidosound)
 
 ### Motivation
-I really like music and the arts but I'm not artistically gifted:( I'd like to try using my programming skills to make something cool related to music/art. 
+I really like music and the arts but I'm not artistically gifted:( I'd like to try using my programming skills to make something cool related to music/art.
 Hopefully others will be able to take my work and add their own creative iterations.
 
 ### Concept
