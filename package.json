@@ -1,0 +1,24 @@
+{
+  "name": "Kaleidosound",
+  "version": "1.0.0",
+  "description": "An open source web music visualizer",
+  "main": "index.js",
+  "dependencies": {
+    "jest": "^26.5.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imanigosserand/Kaleidosound.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/imanigosserand/Kaleidosound/issues"
+  },
+  "homepage": "https://github.com/imanigosserand/Kaleidosound#readme"
+}
