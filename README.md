@@ -2,7 +2,7 @@
 An open source web music visualizer
 
 ## badges
-![GitHub](https://img.shields.io/github/license/imanigosserand/kaleidosound)
+[![GitHub](https://img.shields.io/github/license/imanigosserand/kaleidosound)](https://github.com/imanigosserand/Kaleidosound/blob/master/LICENSE) [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/imanigosserand/Kaleidosound/Super-Linter)](https://github.com/imanigosserand/Kaleidosound/actions?query=workflow%3ASuper-Linter)<br>
 
 ### Motivation
 I really like music and the arts but I'm not artistically gifted:( I'd like to try using my programming skills to make something cool related to music/art.
