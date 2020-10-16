@@ -27,7 +27,3 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
-      
-    - name: Jest Code Coverage Report
-      uses: ziishaned/jest-reporter-action@0.1.1
-
