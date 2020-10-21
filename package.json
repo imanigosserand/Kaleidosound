@@ -7,9 +7,15 @@
     "@jest/globals": "^26.5.3",
     "jest": "^26.5.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "codecov": "^3.8.0"
+  },
   "scripts": {
     "test": "jest"
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
   },
   "repository": {
     "type": "git",
