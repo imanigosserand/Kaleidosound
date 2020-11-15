@@ -8,9 +8,11 @@
     "jest": "^26.5.3"
   },
   "devDependencies": {
-    "codecov": "^3.8.0"
+    "codecov": "^3.8.0",
+    "eslint": "^7.13.0"
   },
   "scripts": {
+    "lint": "./node_modules/.bin/eslint './src/index.js'",
     "test": "jest"
   },
   "jest": {

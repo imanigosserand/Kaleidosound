@@ -1,5 +1,3 @@
-import { generateColorGradient } from './colors.js';
-
 function init(){
   let audioContext = new AudioContext();
   let canvas = document.getElementById('visualizer');
