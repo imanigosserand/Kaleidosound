@@ -1,4 +1,4 @@
-const {verifyAudioFile, getSquareParams} = require('../src/index')
+var {verifyAudioFile, getSquareParams} = require('../src/index');
 
 describe("verifyAudioFile function", () => {
     test("it can correctly identify mp3 files", () => {
