@@ -1,5 +1,5 @@
 // import {$} from 'jquery';
-var $ = require("jquery");
+const $ = require("jquery");
 
 // function init(){
 //   let audioContext = new AudioContext();
