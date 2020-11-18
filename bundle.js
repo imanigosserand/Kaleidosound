@@ -10873,48 +10873,22 @@ return jQuery;
 } );
 
 },{}],2:[function(require,module,exports){
-// import {$} from 'jquery';
 const $ = require("jquery");
+const colors = ["purple", "fuchsia", "teal", "aqua", "darkcyan", "darkmagenta", "hotpink", "lightpink"];
+// var discoMode = false;
 
-// function init(){
-//   let audioContext = new AudioContext();
-//   let canvas = document.getElementById('visualizer');
-//   return [audioContext, canvas];
-// }
-//
 function verifyAudioFile(fileName){
   let fileSplit = fileName.split(".");
   let type = fileSplit[fileSplit.length - 1]
   return type === 'mp3';
 }
-//
-// function setUpAudioNodes(audioContext) {
-//   let analyserNode = audioContext.createAnalyser();
-//   let audio = document.getElementById("audio");
-//   let sourceNode = audioContext.createMediaElementSource(audio);
-//   sourceNode.connect(analyserNode);
-//   analyserNode.connect(audioContext.destination);
-//   analyserNode.fftSize = 256;
-//
-//   return [sourceNode, analyserNode, audio];
-// }
-//
-// get coordinates for canvas drawing
-function getSquareParams(upperLeftX, upperLeftY, size) {
-  if(upperLeftX < 0 || upperLeftY < 0 || size <= 0) return null;
 
-  return [upperLeftX, upperLeftY, upperLeftX + size, upperLeftY + size];
-}
-
-module.exports = {
-  verifyAudioFile,
-  getSquareParams,
-};
 function fitToContainer(canvas){
   canvas.style.width ='100%';
   canvas.style.height='100%';
   canvas.width  = canvas.offsetWidth;
   canvas.height = canvas.offsetHeight;
+  return canvas
 }
 
 function handleFiles(event) {
@@ -10923,12 +10897,61 @@ function handleFiles(event) {
   document.getElementById("audio").load();
 }
 
+function createGradient(ctx, color1, color2, width, height) {
+  var gradient = ctx.createLinearGradient(0, 0, width || 0, height || 0);
+  gradient.addColorStop(0, color1 || "white");
+  gradient.addColorStop(1,color2 || "white");
+  return gradient;
+}
+
+function setCtxStyle(ctx, fill, stroke) {
+  ctx.fillStyle = fill;
+  ctx.strokeStyle = stroke;
+  return ctx;
+}
+
+function colorPicker(numOfColors) {
+  let colorArray = [];
+  for(let i = 0; i < numOfColors; i++){
+    colorArray.push(colors[Math.floor(Math.random() * colors.length)]);
+  }
+  return colorArray;
+}
+
+function drawVisuals(ctx, mode, canvas, x, y, shapeSize) {
+  if(mode === "rect") {
+    let startX = shapeSize*x;
+    let startY = canvas.height-2*y-5;
+    let width = Math.ceil(shapeSize);
+    let height = canvas.height;
+    ctx.rect(startX, startY, width, height)
+    ctx.fillRect(startX, startY, width, height)
+    ctx.stroke();
+    return [startX, startY, width, height];
+  }
+  return null
+}
+
+module.exports = {
+  colors,
+  verifyAudioFile,
+  fitToContainer,
+  createGradient,
+  setCtxStyle,
+  colorPicker,
+  drawVisuals
+};
 
 $(document).ready(function() {
   // canvas set up
   let canvas = document.getElementById('visualizer');
   let ctx = canvas.getContext("2d");
+
   fitToContainer(canvas);
+
+  let colors = colorPicker(2);
+  let gradient = createGradient(ctx, colors[0], colors[1], canvas.width, canvas.height);
+  setCtxStyle(ctx, gradient, "white");
 
   // audio set up
   document.getElementById("upload").addEventListener("change", handleFiles, false);
@@ -10950,7 +10973,6 @@ $(document).ready(function() {
 
   function loopingFunction(){
     requestAnimationFrame(loopingFunction);
-
     analyserNode.getByteFrequencyData(data);
     draw();
   }
@@ -10958,45 +10980,17 @@ $(document).ready(function() {
   function draw(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     let space = canvas.width / data.length;
-
     ctx.beginPath();
-    var gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
-    gradient.addColorStop(0, "purple");
-    gradient.addColorStop(1,"magenta");
 
-    ctx.fillStyle = gradient;
+    // if(discoMode){
+    //   colors = colorPicker(2);
+    //   gradient = createGradient(ctx, colors[0], colors[1], canvas.width, canvas.height);
+    // }
 
+    setCtxStyle(ctx, gradient, "white");
     data.forEach((value,i)=>{
-      ctx.strokeStyle = 'white';
-      ctx.rect(space*i, canvas.height-2*value-5, Math.ceil(space), canvas.height)
-      ctx.fillRect(space*i, canvas.height-2*value-5, Math.ceil(space), canvas.height)
-      ctx.stroke();
-
+      drawVisuals(ctx, "rect", canvas, i, value, space);
     })
   }
-
 });
-// var Color = require('./color').Color;
-// $(document).ready(function() {
-//
-//   let canvas = document.getElementById('visualizer');
-//   let ctx = canvas.getContext("2d");
-//   fitToContainer(canvas);
-//
-//   // var Green = Color("#00FF00");
-//
-//   var gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
-//   gradient.addColorStop(0, "magenta");
-//   gradient.addColorStop(1,"blue");
-//
-//
-//   console.log(canvas.width)
-//   console.log(canvas.height)
-//   console.log(canvas.width/128)
-//   let space = Math.ceil(canvas.width/128)
-//   ctx.fillStyle = gradient;
-//   ctx.lineWidth = 5;
-//   ctx.fillRect(0,0,canvas.width, canvas.height)
-// });
-
 },{"jquery":1}]},{},[2]);
