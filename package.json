@@ -1,6 +1,6 @@
 {
   "name": "Kaleidosound",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "An open source web music visualizer",
   "main": "index.js",
   "dependencies": {
