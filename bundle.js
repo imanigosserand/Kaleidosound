@@ -10910,17 +10910,26 @@ module.exports = {
   verifyAudioFile,
   getSquareParams,
 };
+
 function fitToContainer(canvas){
   canvas.style.width ='100%';
   canvas.style.height='100%';
   canvas.width  = canvas.offsetWidth;
   canvas.height = canvas.offsetHeight;
+  return canvas
 }
 
 function handleFiles(event) {
   var files = event.target.files;
   $("#src").attr("src", URL.createObjectURL(files[0]));
   document.getElementById("audio").load();
+}
+
+function createGradient(ctx, color1, color2, width, height) {
+  var gradient = ctx.createLinearGradient(0, 0, width || 0, height || 0);
+  gradient.addColorStop(0, color1 || "white");
+  gradient.addColorStop(1,color2 || "white");
+  return gradient;
 }
 
 
@@ -10960,9 +10969,7 @@ $(document).ready(function() {
     let space = canvas.width / data.length;
 
     ctx.beginPath();
-    var gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
-    gradient.addColorStop(0, "purple");
-    gradient.addColorStop(1,"magenta");
+    var gradient = createGradient(ctx, "blue", null, canvas.width, canvas.height)
 
     ctx.fillStyle = gradient;
 
