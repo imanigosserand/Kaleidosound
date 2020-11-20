@@ -20,3 +20,6 @@ A web application that allows users to queue music and see music visualizations.
 - audio playback controls
 - adding multiple users to a session
  3. Creating a server that connects and synchronizes music/visuals for users in an app session.
+
+### Demo
+![Demo](https://user-images.githubusercontent.com/13710053/99763137-b775c180-2abf-11eb-8399-03a6cc7a006c.gif)
