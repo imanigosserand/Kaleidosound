@@ -7,11 +7,12 @@
     "jquery": "^3.5.1"
   },
   "devDependencies": {
+    "@jest/globals": "^26.5.3",
     "codecov": "^3.8.0",
     "eslint": "^7.13.0",
+    "jest": "^26.5.3",
     "jest-canvas-mock": "^2.3.0",
-    "@jest/globals": "^26.5.3",
-    "jest": "^26.5.3"
+    "jsdoc": "^3.6.6"
   },
   "scripts": {
     "lint": "./node_modules/.bin/eslint './src/index.js'",
@@ -34,5 +35,5 @@
   "bugs": {
     "url": "https://github.com/imanigosserand/Kaleidosound/issues"
   },
-  "homepage": "https://github.com/imanigosserand/Kaleidosound#readme"
+  "homepage": "https://github.com/imanigosserand/Kaleidosound#readme",
 }
