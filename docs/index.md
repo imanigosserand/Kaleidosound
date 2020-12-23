@@ -26,6 +26,11 @@ A web application that allows users to queue music and see music visualizations.
 ## User Documentation
 
 ### How To Use
+
+**Online** <br>
+Click [here](https://imanigosserand.github.io/Kaleidosound/)<br>
+
+**Locally**<br>
 1. Download the respository zip or git clone
 2. After unzipping or cloning, open index.html file from file manager. This should open up a new tab in your native browser.
 3. Click on the 'Choose File' button at the bottom of the screen, and upload any mp3 file.
