@@ -10921,7 +10921,7 @@ function colorPicker(numOfColors) {
 }
 
 function drawVisuals(ctx, mode, canvas, x, y, size, offset) {
-  if(mode === "rect") {
+  if(mode === "default") {
     let startX = size*x;
     let startY = canvas.height-2.5*y-5;
     let width = Math.ceil(size);
@@ -10933,8 +10933,8 @@ function drawVisuals(ctx, mode, canvas, x, y, size, offset) {
     return [startX, startY, width, height];
   } else if(mode === "line") {
     let xCoord = x * (size * 2) + offset;
-    let startY = canvas.height / 2 - (y/2)**1.2;
-    let endY = canvas.height / 2 + (y/2)**1.2;
+    let startY = canvas.height / 2 - ((y+2.5)/2)**1.2;
+    let endY = canvas.height / 2 + ((y+2.5)/2)**1.2;
     ctx.moveTo(xCoord, startY)
     ctx.lineTo(xCoord, endY)
     ctx.stroke()
@@ -10978,12 +10978,9 @@ $(document).ready(function() {
 
   let visualDropdown = document.getElementById('visuals');
   visualDropdown.addEventListener("change", function(){
-    console.log(visualDropdown.value);
     selectVisual(visualDropdown.value)
   });
-  console.log(visualDropdown.value);
 
-  let lineColor = colorPicker(1);
   let colors = colorPicker(2);
   let gradient = createGradient(ctx, colors[0], colors[1], canvas.width, canvas.height);
   setCtxStyle(ctx, gradient, "white");
@@ -11011,45 +11008,36 @@ $(document).ready(function() {
     analyserNode.getByteFrequencyData(data);
     data = data.slice(0, 54)
     ctx.clearRect(0,0,canvas.width,canvas.height);
+    if(discoMode){
+      colors = colorPicker(2);
+      gradient = createGradient(ctx, colors[0], colors[1], canvas.width, canvas.height);
+    }
 
     switch (drawingMode) {
       case "line":
         lineDraw();
         break;
-
       default:
         draw();
     }
   }
 
   function draw(){
-    // ctx.clearRect(0,0,canvas.width,canvas.height);
     let space = canvas.width / data.length;
     ctx.beginPath();
-
-    if(discoMode){
-      colors = colorPicker(2);
-      gradient = createGradient(ctx, colors[0], colors[1], canvas.width, canvas.height);
-    }
-
     setCtxStyle(ctx, gradient, "white");
+
     data.forEach((value,i)=>{
-      drawVisuals(ctx, "rect", canvas, i, value, space);
+      drawVisuals(ctx, "default", canvas, i, value, space);
     })
   }
 
   function lineDraw(){
-    // ctx.clearRect(0,0,canvas.width,canvas.height);
     let lineWidth = Math.floor(canvas.width / data.length / 2) ;
     let offset = (canvas.width - data.length * (lineWidth * 2)) / 2;
-    // let lineWidth = 1
     ctx.beginPath();
+    setCtxStyle(ctx, "white", gradient, lineWidth);
 
-    if(discoMode){
-      lineColor = colorPicker(1);
-    }
-
-    setCtxStyle(ctx, "white", lineColor, lineWidth);
     data.forEach((value,i)=>{
       drawVisuals(ctx, "line", canvas, i, value, lineWidth, offset);
     })
