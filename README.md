@@ -22,4 +22,4 @@ A web application that allows users to queue music and see music visualizations.
  3. Creating a server that connects and synchronizes music/visuals for users in an app session.
 
 ### Demo
-![Demo](https://user-images.githubusercontent.com/13710053/99763137-b775c180-2abf-11eb-8399-03a6cc7a006c.gif)
+![Demo](https://user-images.githubusercontent.com/13710053/102958108-c6c2a300-44a1-11eb-9503-3425d5bd9af2.gif)
