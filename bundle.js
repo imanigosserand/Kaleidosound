@@ -10876,7 +10876,7 @@ return jQuery;
 const $ = require("jquery");
 const colors = ["purple", "fuchsia", "teal", "aqua", "darkcyan", "darkmagenta", "hotpink", "lightpink"];
 var discoMode = false;
-var drawingMode = "line";
+var drawingMode = "default";
 
 function verifyAudioFile(fileName){
   let fileSplit = fileName.split(".");
@@ -10920,24 +10920,38 @@ function colorPicker(numOfColors) {
   return colorArray;
 }
 
-function drawVisuals(ctx, mode, canvas, x, y, shapeSize) {
+function drawVisuals(ctx, mode, canvas, x, y, size, offset) {
   if(mode === "rect") {
-    let startX = shapeSize*x;
-    let startY = canvas.height-2*y-5;
-    let width = Math.ceil(shapeSize);
+    let startX = size*x;
+    let startY = canvas.height-2.5*y-5;
+    let width = Math.ceil(size);
     let height = canvas.height;
     ctx.rect(startX, startY, width, height)
     ctx.fillRect(startX, startY, width, height)
     ctx.stroke();
+
     return [startX, startY, width, height];
+  } else if(mode === "line") {
+    let xCoord = x * (size * 2) + offset;
+    let startY = canvas.height / 2 - (y/2)**1.2;
+    let endY = canvas.height / 2 + (y/2)**1.2;
+    ctx.moveTo(xCoord, startY)
+    ctx.lineTo(xCoord, endY)
+    ctx.stroke()
+
+    return [xCoord, startY, xCoord, endY];
   }
   return null
 }
 
-function drawLineVisuals(ctx, canvas, offset, x, y, lineWidth){
-  ctx.moveTo(x * (lineWidth * 2) + offset, canvas.height / 2 - (y/2)**1.2)
-  ctx.lineTo(x * (lineWidth * 2) + offset, canvas.height / 2 + (y/2)**1.2)
-  ctx.stroke()
+function toggleDiscoMode() {
+  discoMode = !discoMode;
+  return discoMode;
+}
+
+function selectVisual(visualName) {
+  drawingMode = visualName;
+  return drawingMode;
 }
 
 module.exports = {
@@ -10947,7 +10961,9 @@ module.exports = {
   createGradient,
   setCtxStyle,
   colorPicker,
-  drawVisuals
+  drawVisuals,
+  toggleDiscoMode,
+  selectVisual
 };
 
 $(document).ready(function() {
@@ -10956,6 +10972,16 @@ $(document).ready(function() {
   let ctx = canvas.getContext("2d");
 
   fitToContainer(canvas);
+
+  let discoButton = document.getElementById('discoButton');
+  discoButton.addEventListener("click", toggleDiscoMode);
+
+  let visualDropdown = document.getElementById('visuals');
+  visualDropdown.addEventListener("change", function(){
+    console.log(visualDropdown.value);
+    selectVisual(visualDropdown.value)
+  });
+  console.log(visualDropdown.value);
 
   let lineColor = colorPicker(1);
   let colors = colorPicker(2);
@@ -10971,7 +10997,7 @@ $(document).ready(function() {
   let sourceNode = audioContext.createMediaElementSource(audioElement);
   sourceNode.connect(analyserNode);
   sourceNode.connect(audioContext.destination);
-  analyserNode.fftSize = 256;
+  analyserNode.fftSize = 128;
 
   let data = new Uint8Array(analyserNode.frequencyBinCount);
   audioElement.onplay = ()=>{
@@ -10983,6 +11009,8 @@ $(document).ready(function() {
   function loopingFunction(){
     requestAnimationFrame(loopingFunction);
     analyserNode.getByteFrequencyData(data);
+    data = data.slice(0, 54)
+    ctx.clearRect(0,0,canvas.width,canvas.height);
 
     switch (drawingMode) {
       case "line":
@@ -10995,7 +11023,7 @@ $(document).ready(function() {
   }
 
   function draw(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+    // ctx.clearRect(0,0,canvas.width,canvas.height);
     let space = canvas.width / data.length;
     ctx.beginPath();
 
@@ -11011,19 +11039,19 @@ $(document).ready(function() {
   }
 
   function lineDraw(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+    // ctx.clearRect(0,0,canvas.width,canvas.height);
     let lineWidth = Math.floor(canvas.width / data.length / 2) ;
+    let offset = (canvas.width - data.length * (lineWidth * 2)) / 2;
     // let lineWidth = 1
     ctx.beginPath();
+
     if(discoMode){
       lineColor = colorPicker(1);
     }
+
     setCtxStyle(ctx, "white", lineColor, lineWidth);
-
-    let offset = (canvas.width - data.length * (lineWidth * 2)) / 2;
-
     data.forEach((value,i)=>{
-      drawLineVisuals(ctx, canvas, offset, i, value, lineWidth);
+      drawVisuals(ctx, "line", canvas, i, value, lineWidth, offset);
     })
   }
 });

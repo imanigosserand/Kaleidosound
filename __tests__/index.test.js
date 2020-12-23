@@ -62,7 +62,6 @@ describe("colorPicker function", () => {
         var randomNum = Math.floor(Math.random() * 10)
         expect(colorPicker(randomNum).length === randomNum);
     });
-
 });
 
 describe("drawVisuals function", () => {
