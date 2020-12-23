@@ -35,3 +35,9 @@ body {
     justify-content: space-around;
     align-items: center;
 }
+
+.disco-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

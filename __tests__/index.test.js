@@ -1,4 +1,4 @@
-var {colors, verifyAudioFile, fitToContainer, createGradient, setCtxStyle, colorPicker, drawVisuals} = require('../src/index');
+var {colors, verifyAudioFile, fitToContainer, createGradient, setCtxStyle, colorPicker, drawVisuals, toggleDiscoMode, selectVisual} = require('../src/index');
 
 describe("verifyAudioFile function", () => {
     test("it can correctly identify mp3 files", () => {
@@ -62,7 +62,6 @@ describe("colorPicker function", () => {
         var randomNum = Math.floor(Math.random() * 10)
         expect(colorPicker(randomNum).length === randomNum);
     });
-
 });
 
 describe("drawVisuals function", () => {
@@ -71,12 +70,39 @@ describe("drawVisuals function", () => {
       '<canvas id="visualizer"/>' +
       '</div>';
 
-    test("returns the correct rectangle dimensions when in rectangle mode", () => {
+    test("returns the correct rectangle dimensions when in default mode", () => {
         let canvas = document.getElementById('visualizer')
         let ctx = canvas.getContext("2d");
-        let mode = "rect", x = 10, y = 20, shapeSize = 5;
-        expect(drawVisuals(ctx, mode, canvas, x, y, shapeSize)).toEqual([x*shapeSize, canvas.height-2*y-5, shapeSize, canvas.height]);
+        let mode = "default", x = 10, y = 20, shapeSize = 5;
+        expect(drawVisuals(ctx, mode, canvas, x, y, shapeSize)).toEqual([x*shapeSize, canvas.height-2.5*y-5, shapeSize, canvas.height]);
     });
 
+    test("returns the correct line dimensions when in line mode", () => {
+        let canvas = document.getElementById('visualizer')
+        let ctx = canvas.getContext("2d");
+        let mode = "line", x = 10, y = 20, lineWidth = 2, offset = 2;
+        expect(drawVisuals(ctx, mode, canvas, x, y, lineWidth, offset)).toEqual([x*(lineWidth*2) + offset, canvas.height / 2 - ((y+2.5)/2)**1.2, x*(lineWidth*2) + offset, canvas.height / 2 + ((y+2.5)/2)**1.2]);
+    });
+
+    test("returns null when invalid mode is passed", () => {
+        let canvas = document.getElementById('visualizer')
+        let ctx = canvas.getContext("2d");
+        let mode = "circle";
+        expect(drawVisuals(ctx, mode)).toEqual(null);
+    })
+});
+
+describe("toggleDiscoMode function", () => {
+    test("switches the value of discoMode when called", () => {
+        expect(toggleDiscoMode()).toEqual(true);
+        expect(toggleDiscoMode()).toEqual(false);
+    });
+});
+
+describe("selectVisual function", () => {
+    test("changes the value of drawingMode when called", () => {
+        expect(selectVisual("line")).toEqual("line");
+        expect(selectVisual("default")).toEqual("default");
+    });
 });
 
